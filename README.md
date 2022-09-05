@@ -59,7 +59,7 @@ pyenv versions
 
 ```
 
-### Install multiple version of python
+### 4. Install multiple version of python
 
 ```shell
 # list all available version
@@ -70,7 +70,7 @@ pyenv install 310.1
 ```
 
 
-### Install pyenv-virtualenv plugin
+### 5. Install pyenv-virtualenv plugin
 
 The new version of pyenv already has it by default, you don't need to install it explicitly
 
@@ -82,3 +82,25 @@ ${pyenv_home}/plugins
 # in my case
 /home/pliu/.pyenv/plugins
 ```
+
+
+### 6. Creating a virtualenv
+
+```shell
+# general form
+pyenv virtualenv $python_version $venv_name
+
+# example, the best practice is to show the python version in the venv name.
+pyenv virtualenv 3.9.13 venv-3.9.13
+```
+
+To active/deactivate a virtual env
+
+```shell
+# activate
+pyenv activate $venv_name
+
+# deactivate
+pyenv deactivate
+```
+
