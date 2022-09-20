@@ -1,71 +1,8 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
+
 from pandas.plotting import parallel_coordinates
 # from utils import isDecimal
 
-footballer_input_file='/home/pliu/data_set/python_data_set/pandas_data_visu/footballer.csv'
-df=pd.read_csv(footballer_input_file,index_col=0,encoding='utf8')
-# print(df['Value'].head(5))
-# break the Value column(€95.5M) into two columns, Unit column can be M (million) or 0
-# The Value (M) column represents the player's value in Million,
-# example €95.5M -> M, 95.5
-# €0 -> 0, 0
-#print(df.dtypes)
-footballers= df.copy()
-footballers['Unit'] = df['Value'].str[-1]
-footballers['Value (M)'] = np.where(footballers['Unit'] == '0', 0,
-                                    footballers['Value'].str[1:-1].replace(r'[a-zA-Z]',''))
-#print(footballers[footballers['Unit']=='0']['Value'].head(5))
-footballers['Value (M)'] = footballers['Value (M)'].astype(float)
-footballers['Value (M)'] = np.where(footballers['Unit'] == 'M',
-                                    footballers['Value (M)'],
-                                    footballers['Value (M)']/1000)
-# replace the old value column by Value (M) column
-# replace the old position column by the first element in Preferred Position
-footballers = footballers.assign(Value=footballers['Value (M)'],
-                                 Position=footballers['Preferred Positions'].str.split().str[0])
-# print(footballers[footballers['Unit']=='M']['Value (M)'].head(5))
-# print(footballers[footballers['Unit']=='0']['Value (M)'].head(5))
-
-#print(footballers['Unit'].head(5))
-
-#print(footballers.head())
-
-"""
-Adding more visual variables
-
-The most obvious way to plot lots of variables is to augement the visualizations we've been using thus far with even 
-more visual variables. A visual variable is any visual dimension or marker that we can use to perceptually distinguish 
-two data elements from one another. Examples include size, color, shape, and one, two, and even three dimensional position.
-
-"Good" multivariate data displays are ones that make efficient, easily-interpretable use of these parameters.
-"""
-##########################################################################
-######### Multivariate scatter plots  #####################################
-#########################################################################
-"""
-Let's look at some examples. We'll start with the scatter plot. Supose that we are interested in seeing which 
-type of offensive players tends to get paid the most: the striker, the right-winger, or the left-winger.
-
-"""
-# use color for hue distinction, the default setting
-#sns.lmplot(x='Value',y='Overall',hue='Position',data=footballers.loc[footballers['Position'].isin(['ST','RW','LW'])],fit_reg=False)
-#plt.show()
-
-"""
-This scatterplot uses three visual variables. The horizontal position (x-value) tracks the Value of the player 
-(how well they are paid). The vertical position (y-value) tracks the Overall score of the player across all attributes. 
-And the color (the hue parameter) tracks which of the three categories of interest the player the point represents is in.
-
-The new variable in this chart is color. Color provides an aesthetically pleasing visual, but it's tricky to use. 
-Looking at this scatter plot we see the same overplotting issue we saw in previous sections. But we no longer have an 
-easy solution, like using a hex plot, because color doesn't make sense in that setting.
-
-Another example visual variable is shape. Shape controls, well, the shape of the marker:
-"""
 
 # use shape for hue distinction, use markers to specifies which marker for which position
 # o-> ST, x->RW, *->LW
